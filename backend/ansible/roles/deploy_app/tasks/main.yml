@@ -1,0 +1,23 @@
+---
+# deploy_app: نسخ الملفات وتشغيل Docker Compose
+
+- name: Copy backend files
+  copy:
+    src: ../../backend/
+    dest: /home/ubuntu/backend
+    owner: ubuntu
+    group: ubuntu
+    mode: 0755
+
+- name: Copy frontend files
+  copy:
+    src: ../../frontend/
+    dest: /home/ubuntu/frontend
+    owner: ubuntu
+    group: ubuntu
+    mode: 0755
+
+- name: Run Docker Compose
+  command: docker-compose up -d
+  args:
+    chdir: /home/ubuntu

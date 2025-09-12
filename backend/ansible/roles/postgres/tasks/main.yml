@@ -1,0 +1,26 @@
+---
+# postgres: تثبيت وإعداد PostgreSQL
+
+- name: Install PostgreSQL
+  apt:
+    name: postgresql
+    state: present
+
+- name: Ensure PostgreSQL service is running
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Create DB user
+  become_user: postgres
+  postgresql_user:
+    name: myuser
+    password: mypassword
+    role_attr_flags: LOGIN
+
+- name: Create database
+  become_user: postgres
+  postgresql_db:
+    name: mydb
+    owner: myuser

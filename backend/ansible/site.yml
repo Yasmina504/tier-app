@@ -1,0 +1,12 @@
+---
+- name: Deploy Tier App
+  hosts: all
+  become: true   # علشان نقدر نستخدم sudo على الـ VM
+  vars:
+    app_path: /home/yasmina/tier-app  # المكان اللي هيتنزل فيه المشروع على الـ VM
+
+  roles:
+    - common        # تثبيت الحزم الأساسية وتحديث النظام
+    - docker        # تثبيت Docker و Docker Compose
+    - postgres      # تثبيت وتهيئة PostgreSQL
+    - deploy_app    # نسخ ملفات المشروع وتشغيل Docker Compose
