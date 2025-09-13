@@ -1,0 +1,12 @@
+services:
+  backend:
+    build: .
+    container_name: tier_backend
+    networks:
+      - tier-app_default
+    ports:
+      - "5000:5000"
+
+networks:
+  tier-app_default:
+    external: true

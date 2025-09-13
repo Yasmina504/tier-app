@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      tier-app-network:
+        aliases:
+          - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    networks:
+      - tier-app-network
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+    networks:
+      - tier-app-network
+
+networks:
+  tier-app-network:
+    driver: bridge
+
