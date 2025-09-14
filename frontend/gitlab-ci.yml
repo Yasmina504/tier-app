@@ -1,0 +1,34 @@
+stages:
+  - build
+  - test
+  - deploy
+  - notify
+
+# مرحلة البناء
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+
+# مرحلة الاختبارات
+test:
+  stage: test
+  script:
+    - npm install
+    - npm test
+
+# مرحلة النشر على Staging
+deploy:
+  stage: deploy
+  script:
+    - ansible-playbook -i ../ansible/inventory.ini ../ansible/deploy.yml --limit staging
+
+# مرحلة الإشعارات على Slack
+notify:
+  stage: notify
+  script:
+    - curl -X POST -H 'Content-type: application/json' --data '{"text":"Frontend Pipeline finished!"}' <SLACK_WEBHOOK_URL>
